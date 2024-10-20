@@ -10,57 +10,7 @@ class LeaderboardPage extends StatelessWidget {
         title: Text('Energy Usage Leaderboard'),
         backgroundColor: Colors.blue,
       ),
-      body: Column(
-        children: [
-          Expanded(child: LeaderboardList()), // Expanded to take up remaining space
-          _buildStaticSummarySection(), // Static summary values
-        ],
-      ),
-    );
-  }
-
-  // Static values section at the bottom
-  Widget _buildStaticSummarySection() {
-    return Container(
-      color: Colors.blue.shade100,
-      padding: EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Leaderboard Summary',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
-          ),
-          SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildSummaryItem('Top User', 'John Doe'), // Static top user
-              _buildSummaryItem('Total Energy Saved', '1500 kWh'), // Static total energy
-              _buildSummaryItem('Average Energy Use', '120 kWh'), // Static average energy usage
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSummaryItem(String title, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-        ),
-        Text(
-          value,
-          style: TextStyle(fontSize: 16, color: Colors.blueAccent),
-        ),
-      ],
+      body: LeaderboardList(),
     );
   }
 }
@@ -80,10 +30,13 @@ class LeaderboardList extends StatelessWidget {
 
       // Calculate total energy used by this user
       double totalEnergyUsed = await _calculateTotalEnergyUsed(userId);
+      double energySaved = 1000 - totalEnergyUsed; // Assuming 1000 is a baseline for energy saved
 
       leaderboardData.add({
         'name': userName,
         'totalEnergyUsed': totalEnergyUsed,
+        'energySaved': energySaved,
+        'averageEnergyUsed': totalEnergyUsed / 12, // Assuming it's calculated monthly
         'userId': userId,
       });
     }
@@ -135,14 +88,37 @@ class LeaderboardList extends StatelessWidget {
 
         final leaderboardData = snapshot.data ?? [];
 
+        // Adding static values
+        final staticData = [
+          {'name': 'Caroline', 'totalEnergyUsed': 200.5, 'energySaved': 799.5, 'averageEnergyUsed': 16.7},
+          {'name': 'Amrutha', 'totalEnergyUsed': 185.0, 'energySaved': 815.0, 'averageEnergyUsed': 15.4},
+          {'name': 'Aditya', 'totalEnergyUsed': 150.3, 'energySaved': 849.7, 'averageEnergyUsed': 12.5},
+        ];
+
+        // Combine dynamic data with static data
+        final combinedData = leaderboardData + staticData;
+
         return ListView.builder(
-          itemCount: leaderboardData.length,
+          itemCount: combinedData.length,
           itemBuilder: (context, index) {
-            final data = leaderboardData[index];
+            final data = combinedData[index];
+            Color cardColor;
+
+            // Set different colors for the first three users
+            if (index == 0) {
+              cardColor = Colors.yellow.shade100;
+            } else if (index == 1) {
+              cardColor = Colors.orange.shade100;
+            } else if (index == 2) {
+              cardColor = Colors.red.shade100;
+            } else {
+              cardColor = Colors.white;
+            }
 
             return Card(
               margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               elevation: 3,
+              color: cardColor, // Dynamic background color
               child: ListTile(
                 leading: CircleAvatar(
                   backgroundColor: Colors.blue.shade700,
@@ -154,6 +130,19 @@ class LeaderboardList extends StatelessWidget {
                 title: Text(
                   data['name'],
                   style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Energy Saved: ${data['energySaved'].toStringAsFixed(2)} kWh', // Display energy saved
+                      style: TextStyle(color: Colors.green),
+                    ),
+                    Text(
+                      'Avg. Energy Used: ${data['averageEnergyUsed'].toStringAsFixed(2)} kWh', // Display average energy used
+                      style: TextStyle(color: Colors.blueGrey),
+                    ),
+                  ],
                 ),
                 trailing: Text(
                   '${data['totalEnergyUsed'].toStringAsFixed(2)} kWh', // Displaying energy usage
