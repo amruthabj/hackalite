@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "686727571817",
+    "project_id": "smart-volt-b4aaa",
+    "storage_bucket": "smart-volt-b4aaa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:686727571817:android:cda9999c533f93d48435f8",
+        "android_client_info": {
+          "package_name": "com.smart.volt.smartvolt1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAg_dUJIwZlfxHTHwnc1x3pxXG0_XHR-kE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
