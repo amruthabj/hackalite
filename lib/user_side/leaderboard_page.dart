@@ -90,9 +90,9 @@ class LeaderboardList extends StatelessWidget {
 
         // Adding static values
         final staticData = [
-          {'name': 'Caroline', 'totalEnergyUsed': 200.5, 'energySaved': 799.5, 'averageEnergyUsed': 16.7},
-          {'name': 'Amrutha', 'totalEnergyUsed': 185.0, 'energySaved': 815.0, 'averageEnergyUsed': 15.4},
-          {'name': 'Aditya', 'totalEnergyUsed': 150.3, 'energySaved': 849.7, 'averageEnergyUsed': 12.5},
+          {'name': 'Caroline', 'totalEnergyUsed': 500.5, 'energySaved': 499.5, 'averageEnergyUsed': 90.7},
+          {'name': 'Amrutha', 'totalEnergyUsed': 585.0, 'energySaved': 315.0, 'averageEnergyUsed': 100.4},
+          {'name': 'Aditya', 'totalEnergyUsed': 650.3, 'energySaved': 249.7, 'averageEnergyUsed': 250.5},
         ];
 
         // Combine dynamic data with static data
